@@ -10,8 +10,6 @@ import Foundation
 protocol FilmDataManagerDelegate {
     
     func didFetchFilms(_ films : [Film])
-    func didFetchPeople(_ people: [People])
-    //func didFetchPeopleForFilms()
     func didFailWithError(_: Error?)
 }
 
@@ -19,7 +17,6 @@ class FilmDataManager {
     
     private var dataStore = DataStore.sharedInstance
     private let networkManager = NetworkManager()
-    private let peopleDataDispatchGroup = DispatchGroup()
     
     var delegate: FilmDataManagerDelegate?
     
@@ -33,7 +30,6 @@ class FilmDataManager {
                 strongSelf.dataStore.addFilms(filmData: filmResponse)
                 let films = Array(strongSelf.dataStore.allFilms.values)
                 strongSelf.delegate?.didFetchFilms(films)
-                strongSelf.fetchAllPeople()
                 
             case .failure(let error):
                 strongSelf.delegate?.didFailWithError(error)

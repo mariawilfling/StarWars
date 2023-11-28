@@ -19,14 +19,7 @@ enum SWContentType: String {
 struct MenuView: View {
     
     init() {
-        let coloredNavAppearance = UINavigationBarAppearance()
-        coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = .black
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.yellow]
-        coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.yellow]
-               
-        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+        setListColors()
     }
     
     var body: some View {
@@ -45,7 +38,7 @@ struct MenuView: View {
                     
                     Grid() {
                         GridRow {
-                            NavigationLink(destination: SWFilmsListView()) {
+                            NavigationLink(destination: FilmsListView(viewModel: FilmsListViewModel())) {
                                 menuTile(contentType: .films)
                             }
                             menuTile(contentType: .people)
@@ -94,6 +87,17 @@ func menuTile(contentType: SWContentType) -> some View {
     .cornerRadius(15)
     .padding()
     
+}
+
+private func setListColors() {
+    let coloredNavAppearance = UINavigationBarAppearance()
+    coloredNavAppearance.configureWithOpaqueBackground()
+    coloredNavAppearance.backgroundColor = .black
+    coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.yellow]
+    coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.yellow]
+           
+    UINavigationBar.appearance().standardAppearance = coloredNavAppearance
+    UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
 }
 
 struct MenuView_Previews: PreviewProvider {

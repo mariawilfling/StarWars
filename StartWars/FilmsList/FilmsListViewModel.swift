@@ -7,27 +7,27 @@
 
 import Foundation
 
-final class FilmsListViewModel: ObservableObject {
+class FilmsListViewModel: ObservableObject {
     
-    @Published var films =  [Film]()
-    let dataManager = SWDataManager()
-
+    @Published var films = [Film]()
+    
+    let dataManager = FilmDataManager()
     
     init() {
+        self.films = films
         
         dataManager.delegate = self
-        dataManager.getAllFilms()
+        dataManager.fetchAllFilms()
     }
 }
 
-extension FilmsListViewModel: SWDataManagerDelegate {
-    func didFetchFilms(films: [Film]) {
+extension FilmsListViewModel: FilmDataManagerDelegate {
+
+    func didFetchFilms(_ films: [Film]) {
         self.films = films
     }
-    
+
     func didFailWithError(_: Error?) {
-        
+
     }
-    
-    
 }

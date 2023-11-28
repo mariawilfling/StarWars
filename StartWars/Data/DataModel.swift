@@ -7,59 +7,33 @@
 
 import Foundation
 
-enum Gender: String, Decodable {
-    case male
-    case female
-}
-
-struct SWFilmsResponse: Decodable {
-    let results: [SWFilmResponse]
-}
-
-class SWFilmResponse: Codable {
+struct Film: Hashable, Identifiable {
+    let id = UUID()
     let url: String
     let title: String
     let episodeId: Int
     let releaseDate: String
-    let characters: [String]
-    let planets: [String]
+    let characters: [String]?
+    let planets: [String]?
     
-    enum CodingKeys : String, CodingKey {
-            case url, title, episodeId = "episode_id", releaseDate = "release_date", characters, planets
-        }
-    
-    required init(from decoder:Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            url = try values.decode(String.self, forKey: .url)
-            title = try values.decode(String.self, forKey: .title)
-            episodeId = try values.decode(Int.self, forKey: .episodeId)
-            releaseDate = try values.decode(String.self, forKey: .releaseDate)
-            characters = try values.decode([String].self, forKey: .characters)
-            planets = try values.decode([String].self, forKey: .planets)
-        }
+    #if DEBUG
+    static let example = Film(url: "https://swapi.dev/api/films/1/", title: "A New Hope", episodeId: 4, releaseDate: "1977-05-25", characters: nil, planets: nil)
+    #endif
 }
-
-struct SWPeopleResponse: Decodable {
-    let results: [SWPeople]
-}
-
-struct SWPeople: Decodable {
-    let url: Int
+struct People: Hashable, Identifiable {
+    let id = UUID()
+    let url: String
     let name: String
-    let height: Int
-    let mass: Int
+    let height: String
+    let mass: String
     let gender: Gender
     let homeworld: String
-    let films: [String]
-    let species: [String]
-    let vehicles: [String]
-    let starships: [String]
-}
-
-struct SWPlanets: Decodable {
+    let films: [String]?
+    let species: [String]?
+    let vehicles: [String]?
+    let starships: [String]?
     
-}
-
-struct SWSpecies: Decodable {
-    
+    #if DEBUG
+    static let example = People(url: "https://swapi.dev/api/films/1/", name: "Luke Skywalker", height: "174", mass: "70", gender: .male, homeworld: "xyz/url/1/", films: nil, species: nil, vehicles: nil, starships: nil)
+    #endif
 }

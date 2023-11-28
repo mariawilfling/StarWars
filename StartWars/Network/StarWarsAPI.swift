@@ -10,6 +10,7 @@ import Moya
 public enum StarWarsAPI {
     case films
     case people
+    case personFromID(Int)
     case planets
     case species
     case starships
@@ -24,6 +25,7 @@ extension StarWarsAPI: TargetType {
     public var path: String {
         switch self {
         case .films: return "films"
+        case .personFromID(let id): return "/people/\(id)/"
         case .people: return "people"
         case .planets: return "planets"
         case .species: return "species"

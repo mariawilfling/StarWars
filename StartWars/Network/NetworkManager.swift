@@ -12,17 +12,24 @@ protocol Networkable {
     
     var provider: MoyaProvider<StarWarsAPI> {get}
     
-    func fetchFilmsData(completion: @escaping (Result<[SWFilmsResponse], Error>) -> ())
+    func fetchFilmsData(completion: @escaping (Result<SWFilmsResponse, Error>) -> ())
 
 }
 
-/// Manages API requests and maps the response to data objects
 struct NetworkManager: Networkable {
     
     var provider = MoyaProvider<StarWarsAPI>()
     
-    func fetchFilmsData(completion: @escaping (Result<[SWFilmsResponse], Error>) -> ()) {
+    func fetchFilmsData(completion: @escaping (Result<SWFilmsResponse, Error>) -> ()) {
         request(target: .films, completion: completion)
+    }
+    
+    func fetchPeopleData(completion: @escaping (Result<SWPeopleResponse, Error>) -> ()) {
+        request(target: .people, completion: completion)
+    }
+    
+    func fetchPersonFromId(id: Int, completion: @escaping (Result<SWPeople, Error>) -> ()) {
+        request(target: .personFromID(id), completion: completion)
     }
 }
 

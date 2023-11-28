@@ -9,17 +9,10 @@ import SwiftUI
 
 struct FilmsListView: View {
     
-    @ObservedObject var viewModel = FilmsListViewModel()
+    @ObservedObject var viewModel: FilmsListViewModel
     
-    init() {
-        let coloredNavAppearance = UINavigationBarAppearance()
-        coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = .black
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.yellow]
-        coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.yellow]
-        
-        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+    init(viewModel: FilmsListViewModel) {
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -39,7 +32,9 @@ struct FilmsListView: View {
                 .scrollContentBackground(.hidden)
                 .listStyle(.plain)
                 .navigationDestination(for: Film.self, destination: { film in
-                    SWFilmDetailView(film: film)
+                    
+                    let viewModel = FilmDetailViewModel(film: film)
+                    FilmDetailView(viewModel: viewModel)
                 })
                 
                 ProgressView("Loading...")
@@ -65,12 +60,12 @@ struct FilmsListView: View {
             }
             Spacer()
         }
-        
     }
 }
 
 struct SWFilmsListView_Previews: PreviewProvider {
     static var previews: some View {
-        FilmsListView()
+        let viewModel = FilmsListViewModel()
+        FilmsListView(viewModel: viewModel)
     }
 }
